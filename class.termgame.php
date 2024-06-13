@@ -1,12 +1,14 @@
 <?php
 class TermgameSeller
 {
-    private $apiKey;
+    private $apiKey = 'apikeyhere'; //EDIT
     private $api_endpoint = "https://api.termgameseller.com";
 
-    public function __construct($apiKey)
+    public function __construct($apiKey = null)
     {
-        $this->apiKey = $apiKey;
+        if($apiKey !== null) {
+            $this->apiKey = $apiKey;
+        }
     }
 
     private function request($method = "GET", $path, $data = [])
@@ -74,14 +76,31 @@ class TermgameSeller
     {
         return $this->request("GET", "/v1/api/packages");
     }
+    
     public function transactions()
     {
         return $this->request("GET", "/v1/api/transaction");
     }
 
+    public function status($orderId,$secret)
+    {
+        return $this->request("GET", "/v1/api/status/".$orderId."?secret=".$secret);
+    }
+
     public function buy($data = [])
     {
         return $this->request("POST", "/v1/api/enqueue", $data);
+    }
+
+    public function packageById($packageid) {
+        $packAll = $this->packages();
+        foreach ($packAll as $x) {
+            if($x['id'] === $packageid) {
+                return [true,$x['cost'],$x['price']];
+                break;
+            }
+        }
+        return [false,0,0];
     }
 }
 ?>
