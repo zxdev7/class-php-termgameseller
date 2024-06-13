@@ -2,9 +2,7 @@
 <?php
 require 'class.termgame.php';
 
-$api_key = "l2msif8dhl2c9ppe648ld04kx6gshyoy9vkh2anjqai4zxnzhxm4je7k0xjnzqgh";
-
-$tg = new TermgameSeller($api_key);
+$tg = new TermgameSeller();
 
 // แสดงยอดเงินคงเหลือ
 // echo $tg->getBalance()["balance"];
